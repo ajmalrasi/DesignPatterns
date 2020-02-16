@@ -45,6 +45,7 @@ struct Relationships : RelationshipBrowser {
 
   vector<Person> find_all_children_of(const string &name) override {
     vector<Person> result;
+
     for (auto&& [first, rel, second] : relations) {
       if (first.name == name && rel == Relationship::parent) {
         result.push_back(second);
@@ -59,11 +60,13 @@ struct Relationships : RelationshipBrowser {
  * 
  */
 struct Research {
-  Research(RelationshipBrowser& browser) {
-    for (auto& child : browser.find_all_children_of("John")) {
-      cout << "John has a child called " << child.name << endl;
+  Research(RelationshipBrowser& browser, std::string name) {
+    for (auto& child : browser.find_all_children_of(name)) {
+      cout << "Sidheeq has a child called " << child.name << endl;
     }
   }
+
+//  don't do this
 //  Research(const Relationships& relationships)
 //  {
 //    auto& relations = relationships.relations;
@@ -78,15 +81,14 @@ struct Research {
 };
 
 int main() {
-  Person parent{"John"};
-  Person child1{"Chris"};
-  Person child2{"Matt"};
+  Person parent{"Sidheeq"};
+  Person child1{"Rasi"}, child2{"Jumi"};
 
   Relationships relationships;
   relationships.add_parent_and_child(parent, child1);
   relationships.add_parent_and_child(parent, child2);
 
-  Research _(relationships);
+  Research _(relationships, "Sidheeq");
 
   return 0;
 }
